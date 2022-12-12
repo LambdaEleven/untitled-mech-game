@@ -13,6 +13,7 @@ public class MechMovementBase : MonoBehaviour
 
     [Header("Physics")]
     public float force;
+    public float noForce;
     public float groundDrag;
     public float airDrag;
     
@@ -28,10 +29,12 @@ public class MechMovementBase : MonoBehaviour
     float verticalInput;
     Vector3 movement;
     private StateMachine sm;
+    private MechDash dashScript;
 
     void Start()
     {
         sm = GetComponent<StateMachine>();
+        dashScript = GetComponent<MechDash>();
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         rigidBody.freezeRotation = true;
@@ -49,26 +52,33 @@ public class MechMovementBase : MonoBehaviour
             rigidBody.drag = airDrag;
             animator.SetBool("moveSpeed", true);
         }
+        else
+        {
+            animator.SetBool("moveSpeed", false);
+        }
         if (sm.state == StateMachine.MovementState.walking)
         {
             speedLimit = walkSpeed;
             rigidBody.drag = groundDrag;
-            animator.SetBool("moveSpeed", false);
         }
     }
 
     private void FixedUpdate()
     {
         MovePLayer();
-        
-        if (movement.magnitude > 0)
+
+            if (movement.magnitude > 0)
         rigidBody.AddForce(movement.normalized * (speedLimit * force), ForceMode.Force);
     }
 
     private void MyInput()
     {
         //Look at Cursor Target
-        transform.LookAt(new Vector3(cursorTarget.position.x, transform.position.y, cursorTarget.position.z));
+
+        if (sm.state != StateMachine.MovementState.dashing)
+        {
+            transform.LookAt(new Vector3(cursorTarget.position.x, transform.position.y, cursorTarget.position.z));
+        }
         
         //Obtaining Movement Input
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -78,6 +88,8 @@ public class MechMovementBase : MonoBehaviour
     private void MovePLayer()
     {
         movement = new Vector3(horizontalInput, 0f, verticalInput);
+        if (movement.magnitude > 0)
+            rigidBody.AddForce(movement.normalized * (speedLimit * force), ForceMode.Force);
     }
 
     private void SpeedControl()
