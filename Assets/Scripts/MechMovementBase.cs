@@ -9,6 +9,7 @@ public class MechMovementBase : MonoBehaviour
      public float walkSpeed;
     public float runSpeed;
     public float dashSpeed;
+    [HideInInspector] public float speedLimit;
 
     [Header("Physics")]
     public float force;
@@ -17,16 +18,20 @@ public class MechMovementBase : MonoBehaviour
     
     [Header("Cursor")]
     public Transform cursorTarget;
+
+    [Header("Keybinds")]
+    public KeyCode sprintKey = KeyCode.LeftShift;
     
     private Rigidbody rigidBody;
     private Animator animator;
-    private float speedLimit;
     float horizontalInput;
     float verticalInput;
     Vector3 movement;
-    public bool dashing;
+    private StateMachine sm;
+
     void Start()
     {
+        sm = GetComponent<StateMachine>();
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         rigidBody.freezeRotation = true;
@@ -38,13 +43,13 @@ public class MechMovementBase : MonoBehaviour
         AnimatePlayer();
         SpeedControl();
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (sm.state == StateMachine.MovementState.flying)
         {
             speedLimit = runSpeed;
             rigidBody.drag = airDrag;
             animator.SetBool("moveSpeed", true);
         }
-        else
+        if (sm.state == StateMachine.MovementState.walking)
         {
             speedLimit = walkSpeed;
             rigidBody.drag = groundDrag;

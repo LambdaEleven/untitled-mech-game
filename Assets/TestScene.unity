@@ -912,6 +912,7 @@ GameObject:
   - component: {fileID: 1594565313}
   - component: {fileID: 1594565312}
   - component: {fileID: 1594565316}
+  - component: {fileID: 1594565317}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -934,11 +935,12 @@ MonoBehaviour:
   walkSpeed: 4
   runSpeed: 12
   dashSpeed: 30
+  speedLimit: 0
   force: 4
   groundDrag: 4
   airDrag: 1
   cursorTarget: {fileID: 579248543}
-  dashing: 0
+  sprintKey: 304
 --- !u!54 &1594565313
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -953,7 +955,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!4 &1594565314
 Transform:
@@ -1003,10 +1005,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashForce: 30
-  dashDuration: 0
+  dashDuration: 0.75
   dashCd: 2
-  dashCdTimer: 5
+  dashCdTimer: 2
+--- !u!114 &1594565317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594565311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c73afdf5c3c864684a1644107e16e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprintKey: 304
   dashKey: 32
+  dashing: 0
+  state: 0
 --- !u!1 &1671498393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,7 +1146,6 @@ MonoBehaviour:
   dashDuration: 1
   dashCd: 2
   dashCdTimer: 0
-  dashKey: 32
 --- !u!1 &1713652652
 GameObject:
   m_ObjectHideFlags: 0

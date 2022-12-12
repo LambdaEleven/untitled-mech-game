@@ -6,36 +6,57 @@ using UnityEngine;
 public class MechDash : MonoBehaviour
 {
     private Rigidbody rigidBody;
-    private MechMovement1 mainScript;
+    private MechMovementBase mainScript;
+    private StateMachine sm;
+    
     [Header("Dash")]
     public float dashForce;
     public float dashDuration;
+    
+    [Header("Cooldown")]
     public float dashCd;
     public float dashCdTimer;
-    public KeyCode dashKey = KeyCode.Space;
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        mainScript = GetComponent<MechMovement1>();
+        mainScript = GetComponent<MechMovementBase>();
+        sm = GetComponent<StateMachine>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(dashKey))
+        if (sm.state == StateMachine.MovementState.dashing)
         {
             Dash();
+        }
+
+        if (dashCdTimer > 0)
+        {
+            dashCdTimer -= Time.deltaTime;
         }
     }
 
     private void Dash()
     {
+        if (dashCdTimer > 0) return;
+        else dashCdTimer = dashCd;
+        mainScript.speedLimit = mainScript.dashSpeed;
+        sm.dashing = true;
         Vector3 forceToApply = transform.forward * dashForce;
-        rigidBody.AddForce(forceToApply, ForceMode.Impulse);
+        delayedForceToApply = forceToApply;
+        Invoke(nameof(DelayedDashForce), 0.025f);
         Invoke(nameof(ResetDash), dashDuration);
+    }
+
+    private Vector3 delayedForceToApply;
+    
+    private void DelayedDashForce()
+    {
+        rigidBody.AddForce(delayedForceToApply, ForceMode.Impulse);
     }
 
     private void ResetDash()
     {
-        
+        sm.dashing = false;
     }
 }
