@@ -7,11 +7,10 @@ public class StateMachine : MonoBehaviour
     [Header("Keybinds")]
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode dashKey = KeyCode.Space;
-    
-    public bool dashing;
-    
+
     private MechMovementBase moveScript;
     private MechDash dashScript;
+    private Rigidbody rb;
     public MovementState state;
     
     public enum MovementState
@@ -45,9 +44,10 @@ public class StateMachine : MonoBehaviour
             state = MovementState.walking;
         }
 
-        if ((Input.GetKeyDown(dashKey)) & state == MovementState.flying)
+        if (dashScript.dashing)
         {
             state = MovementState.dashing;
+            
         }
     }
 }
