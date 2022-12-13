@@ -8,12 +8,10 @@ public class MechMovementBase : MonoBehaviour
     [Header("Movement")]
      public float walkSpeed;
     public float runSpeed;
-    public float dashSpeed;
-    [HideInInspector] public float speedLimit;
+    public float speedLimit;
 
     [Header("Physics")]
     public float force;
-    public float noForce;
     public float groundDrag;
     public float airDrag;
     
@@ -46,6 +44,7 @@ public class MechMovementBase : MonoBehaviour
         AnimatePlayer();
         SpeedControl();
 
+        //Handles basic walking and flying movement and animations
         if (sm.state == StateMachine.MovementState.flying)
         {
             speedLimit = runSpeed;
@@ -66,15 +65,11 @@ public class MechMovementBase : MonoBehaviour
     private void FixedUpdate()
     {
         MovePLayer();
-
-            if (movement.magnitude > 0)
-        rigidBody.AddForce(movement.normalized * (speedLimit * force), ForceMode.Force);
     }
 
     private void MyInput()
     {
-        //Look at Cursor Target
-
+        //Look at Cursor Target, Disabled while in Dashing state
         if (sm.state != StateMachine.MovementState.dashing)
         {
             transform.LookAt(new Vector3(cursorTarget.position.x, transform.position.y, cursorTarget.position.z));
@@ -88,10 +83,12 @@ public class MechMovementBase : MonoBehaviour
     private void MovePLayer()
     {
         movement = new Vector3(horizontalInput, 0f, verticalInput);
+        //Force only added when Player is moving
         if (movement.magnitude > 0)
             rigidBody.AddForce(movement.normalized * (speedLimit * force), ForceMode.Force);
     }
 
+    //SpeedControl prevents player from moving faster than speedLimit, Useful when force is in use
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rigidBody.velocity.x, 0f, rigidBody.velocity.z);
@@ -103,6 +100,7 @@ public class MechMovementBase : MonoBehaviour
         }
     }
 
+    //AnimatePlayer handles animator blendtree data
     private void AnimatePlayer()
     {
         //Movement Animations
