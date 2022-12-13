@@ -13,7 +13,9 @@ public class MechDash : MonoBehaviour
     [Header("Dash")]
     public float dashForce;
     public float dashDuration;
+    public float dashSpeed;
     public bool dashing;
+    
     
     [Header("Cooldown")]
     public float dashCd;
@@ -28,6 +30,7 @@ public class MechDash : MonoBehaviour
 
     private void Update()
     {
+        //Dash ability only works while flying
         if ((Input.GetKey(sm.dashKey)) & sm.state == StateMachine.MovementState.flying)
         {
             Dash();
@@ -44,7 +47,6 @@ public class MechDash : MonoBehaviour
         if (dashCdTimer > 0) return;
         else dashCdTimer = dashCd;
         dashing = true;
-        mainScript.speedLimit = mainScript.dashSpeed;
         mainScript.force = 0;
         Vector3 forceToApply = transform.forward * dashForce;
         delayedForceToApply = forceToApply;
@@ -56,11 +58,14 @@ public class MechDash : MonoBehaviour
 
     private Vector3 delayedForceToApply;
     
+    //DelayedDashForce handles dash startup, and prevents conflicts with walking/flying force
     private void DelayedDashForce()
     {
+        mainScript.speedLimit = dashSpeed;
         rigidBody.AddForce(delayedForceToApply, ForceMode.Impulse);
     }
 
+    //ResetDash handles dash cooldown, and returns player back to actionable state
     private void ResetDash()
     {
         dashing = false;

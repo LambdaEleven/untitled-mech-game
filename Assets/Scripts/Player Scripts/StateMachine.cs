@@ -19,15 +19,11 @@ public class StateMachine : MonoBehaviour
         flying,
         dashing
     }
-    
-    // Start is called before the first frame update
     void Start()
     {
         moveScript = GetComponent<MechMovementBase>();
         dashScript = GetComponent<MechDash>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         StateHandler();
