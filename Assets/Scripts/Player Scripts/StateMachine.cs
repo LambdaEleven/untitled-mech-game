@@ -8,11 +8,12 @@ public class StateMachine : MonoBehaviour
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode dashKey = KeyCode.Space;
 
-    private MechMovementBase moveScript;
+    private MechMove moveScript;
     private MechDash dashScript;
     private Rigidbody rb;
+    public bool busyInAction;
     public MovementState state;
-    
+
     public enum MovementState
     {
         walking,
@@ -21,7 +22,7 @@ public class StateMachine : MonoBehaviour
     }
     void Start()
     {
-        moveScript = GetComponent<MechMovementBase>();
+        moveScript = GetComponent<MechMove>();
         dashScript = GetComponent<MechDash>();
     }
     void Update()
@@ -33,7 +34,7 @@ public class StateMachine : MonoBehaviour
     {
         if (Input.GetKey(sprintKey))
         {
-            state = MovementState.flying;
+            state = MovementState.flying; 
         }
         else
         {
@@ -43,7 +44,6 @@ public class StateMachine : MonoBehaviour
         if (dashScript.dashing)
         {
             state = MovementState.dashing;
-            
         }
     }
 }

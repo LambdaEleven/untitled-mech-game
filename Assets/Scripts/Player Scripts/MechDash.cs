@@ -6,7 +6,7 @@ using UnityEngine;
 public class MechDash : MonoBehaviour
 {
     private Rigidbody rigidBody;
-    private MechMovementBase mainScript;
+    private MechMove mainScript;
     private StateMachine sm;
     private Animator animator;
     
@@ -23,7 +23,7 @@ public class MechDash : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        mainScript = GetComponent<MechMovementBase>();
+        mainScript = GetComponent<MechMove>();
         sm = GetComponent<StateMachine>();
         animator = GetComponent<Animator>();
     }
@@ -31,7 +31,7 @@ public class MechDash : MonoBehaviour
     private void Update()
     {
         //Dash ability only works while flying
-        if ((Input.GetKey(sm.dashKey)) & sm.state == StateMachine.MovementState.flying)
+        if (Input.GetKey(sm.dashKey) & (sm.state == StateMachine.MovementState.flying))
         {
             Dash();
         }

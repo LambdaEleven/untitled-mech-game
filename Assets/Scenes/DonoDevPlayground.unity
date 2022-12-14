@@ -1505,89 +1505,9 @@ MonoBehaviour:
   assetGuid: 
   m_Mesh: {fileID: 29357259}
   m_IsSelectable: 1
-  m_SelectedFaces: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
-  m_SelectedEdges:
-  - a: 0
-    b: 1
-  - a: 2
-    b: 0
-  - a: 1
-    b: 3
-  - a: 3
-    b: 2
-  - a: 4
-    b: 5
-  - a: 6
-    b: 4
-  - a: 5
-    b: 7
-  - a: 7
-    b: 6
-  - a: 8
-    b: 9
-  - a: 10
-    b: 8
-  - a: 9
-    b: 11
-  - a: 11
-    b: 10
-  - a: 12
-    b: 13
-  - a: 14
-    b: 12
-  - a: 13
-    b: 15
-  - a: 15
-    b: 14
-  - a: 16
-    b: 17
-  - a: 18
-    b: 16
-  - a: 17
-    b: 19
-  - a: 19
-    b: 18
-  - a: 20
-    b: 21
-  - a: 22
-    b: 20
-  - a: 21
-    b: 23
-  - a: 23
-    b: 22
-  - a: 25
-    b: 24
-  - a: 24
-    b: 26
-  - a: 26
-    b: 27
-  - a: 27
-    b: 25
-  - a: 29
-    b: 28
-  - a: 28
-    b: 30
-  - a: 30
-    b: 31
-  - a: 31
-    b: 29
-  - a: 33
-    b: 32
-  - a: 32
-    b: 34
-  - a: 34
-    b: 35
-  - a: 35
-    b: 33
-  - a: 37
-    b: 36
-  - a: 36
-    b: 38
-  - a: 38
-    b: 39
-  - a: 39
-    b: 37
-  m_SelectedVertices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000110000001200000013000000140000001500000016000000170000001a00000019000000180000001b0000001e0000001d0000001c0000001f0000002200000021000000200000002300000026000000250000002400000027000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!65 &776008486
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1601,6 +1521,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 20, y: 1, z: 20}
   m_Center: {x: 10, y: 0.5, z: -10}
+--- !u!1 &838928617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4603860787296040611, guid: d10825be1b904df458027f54930465af, type: 3}
+  m_PrefabInstance: {fileID: 1121176749}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &838928621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838928617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdc7cb0095fdf542a96a8e126011d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 4
+  runSpeed: 13
+  speedLimit: 0
+  force: 4
+  groundDrag: 4
+  airDrag: 3
+  cursorTarget: {fileID: 307987977}
+  sprintKey: 304
 --- !u!1 &984276398
 GameObject:
   m_ObjectHideFlags: 0
@@ -2001,6 +1946,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grant-PlayerBot
       objectReference: {fileID: 0}
+    - target: {fileID: 4603860787296040664, guid: d10825be1b904df458027f54930465af, type: 3}
+      propertyPath: dashSpeed
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 4603860787296040668, guid: d10825be1b904df458027f54930465af, type: 3}
       propertyPath: cursorTarget
       value: 
@@ -2077,7 +2026,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 05908a730fc2e3e41962ef40e411ade9, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4603860787296040668, guid: d10825be1b904df458027f54930465af, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d10825be1b904df458027f54930465af, type: 3}
 --- !u!1 &1176876068
 GameObject:
@@ -2669,6 +2619,14 @@ PrefabInstance:
     - target: {fileID: 5937600020319360603, guid: 219b1acbbbda9e747b39adf7f4fecc04, type: 3}
       propertyPath: offset.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937600020319360603, guid: 219b1acbbbda9e747b39adf7f4fecc04, type: 3}
+      propertyPath: offset.y
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937600020319360603, guid: 219b1acbbbda9e747b39adf7f4fecc04, type: 3}
+      propertyPath: offset.z
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 5937600020319360606, guid: 219b1acbbbda9e747b39adf7f4fecc04, type: 3}
       propertyPath: m_Name
