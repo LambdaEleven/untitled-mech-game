@@ -45,7 +45,7 @@ public class MechMovementBase : MonoBehaviour
         SpeedControl();
 
         //Handles basic walking and flying movement and animations
-        if (sm.state == StateMachine.MovementState.flying)
+        if (sm.state == StateMachine.MovementState.Flying)
         {
             speedLimit = runSpeed;
             rigidBody.drag = airDrag;
@@ -55,7 +55,7 @@ public class MechMovementBase : MonoBehaviour
         {
             animator.SetBool("moveSpeed", false);
         }
-        if (sm.state == StateMachine.MovementState.walking)
+        if (sm.state == StateMachine.MovementState.Walking)
         {
             speedLimit = walkSpeed;
             rigidBody.drag = groundDrag;
@@ -70,7 +70,7 @@ public class MechMovementBase : MonoBehaviour
     private void MyInput()
     {
         //Look at Cursor Target, Disabled while in Dashing state
-        if (sm.state != StateMachine.MovementState.dashing)
+        if (sm.state != StateMachine.MovementState.Dashing)
         {
             transform.LookAt(new Vector3(cursorTarget.position.x, transform.position.y, cursorTarget.position.z));
         }

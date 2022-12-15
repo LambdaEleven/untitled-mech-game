@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,40 +11,42 @@ public class StateMachine : MonoBehaviour
 
     private MechMove moveScript;
     private MechDash dashScript;
-    private Rigidbody rb;
-    public bool busyInAction;
+    private MechStats mStats;
+    public bool boostExhausted;
     public MovementState state;
 
     public enum MovementState
     {
-        walking,
-        flying,
-        dashing
+        Walking,
+        Flying,
+        Dashing
     }
-    void Start()
+    private void Start()
     {
+        Debug.Log(boostExhausted);
         moveScript = GetComponent<MechMove>();
         dashScript = GetComponent<MechDash>();
+        mStats = GetComponent<MechStats>();
     }
-    void Update()
+    private void Update()
     {
         StateHandler();
     }
 
     private void StateHandler()
     {
-        if (Input.GetKey(sprintKey))
+        if (((!boostExhausted) & Input.GetKey(sprintKey)) & mStats.boost > 0)
         {
-            state = MovementState.flying; 
+            state = MovementState.Flying; 
         }
         else
         {
-            state = MovementState.walking;
+            state = MovementState.Walking;
         }
 
         if (dashScript.dashing)
         {
-            state = MovementState.dashing;
+            state = MovementState.Dashing;
         }
     }
 }

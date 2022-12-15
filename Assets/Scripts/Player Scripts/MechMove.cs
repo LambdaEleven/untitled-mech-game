@@ -8,14 +8,19 @@ public class MechMove : MonoBehaviour
     [Header("Movement")] public float walkSpeed;
     public float runSpeed;
     public float speedLimit;
+    private float boostDrain = 8f;
+    [HideInInspector] public float boostRegen = 30f;
 
-    [Header("Physics")] public float force;
+    [Header("Physics")] 
+    public float force;
     public float groundDrag;
     public float airDrag;
 
-    [Header("Cursor")] public Transform cursorTarget;
+    [Header("Cursor")]
+    public Transform cursorTarget;
 
-    [Header("Keybinds")] public KeyCode sprintKey = KeyCode.LeftShift;
+    [Header("Keybinds")] 
+    public KeyCode sprintKey = KeyCode.LeftShift;
 
     private Rigidbody rigidBody;
     private Animator animator;
@@ -24,6 +29,7 @@ public class MechMove : MonoBehaviour
     Vector3 movement;
     private StateMachine sm;
     private MechDash dashScript;
+    private MechStats mStats;
 
     void Start()
     {
@@ -31,6 +37,7 @@ public class MechMove : MonoBehaviour
         dashScript = GetComponent<MechDash>();
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        mStats = GetComponent<MechStats>();
         rigidBody.freezeRotation = true;
     }
 
@@ -42,15 +49,20 @@ public class MechMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (sm.state == StateMachine.MovementState.walking)
+        if (sm.state == StateMachine.MovementState.Walking)
         {
             PlayerWalk();
+            if (mStats.boost < mStats.maxBoost)
+            {
+                mStats.boost += boostRegen * Time.deltaTime;
+            }
         }
 
-        if (sm.state == StateMachine.MovementState.flying)
+        if (sm.state == StateMachine.MovementState.Flying)
         {
             PlayerFly();
             animator.SetBool("moveSpeed", true);
+            mStats.boost -= boostDrain * Time.deltaTime;
         }
         else
         {
@@ -61,7 +73,7 @@ public class MechMove : MonoBehaviour
     private void PlayerInput()
     {
         //Look at Cursor Target, Disabled while in Dashing state
-        if (sm.state != StateMachine.MovementState.dashing)
+        if (sm.state != StateMachine.MovementState.Dashing)
         {
             transform.LookAt(new Vector3(cursorTarget.position.x, transform.position.y, cursorTarget.position.z));
         }
@@ -106,7 +118,6 @@ public class MechMove : MonoBehaviour
         //Force only added when Player is moving
         if (movement.magnitude > 0)
             rigidBody.AddForce(movement.normalized * (speedLimit * force), ForceMode.Force);
-        
         //Movement Animations
         float velocityX = Vector3.Dot(movement.normalized, transform.right);
         float velocityZ = Vector3.Dot(movement.normalized, transform.forward);

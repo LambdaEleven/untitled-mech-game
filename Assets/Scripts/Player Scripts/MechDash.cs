@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MechDash : MonoBehaviour
@@ -9,14 +10,15 @@ public class MechDash : MonoBehaviour
     private MechMove mainScript;
     private StateMachine sm;
     private Animator animator;
-    
+    private MechStats mStats;
+
     [Header("Dash")]
     public float dashForce;
     public float dashDuration;
     public float dashSpeed;
     public bool dashing;
-    
-    
+
+
     [Header("Cooldown")]
     public float dashCd;
     public float dashCdTimer;
@@ -26,12 +28,13 @@ public class MechDash : MonoBehaviour
         mainScript = GetComponent<MechMove>();
         sm = GetComponent<StateMachine>();
         animator = GetComponent<Animator>();
+        mStats = GetComponent<MechStats>();
     }
 
     private void Update()
     {
         //Dash ability only works while flying
-        if (Input.GetKey(sm.dashKey) & (sm.state == StateMachine.MovementState.flying))
+        if (Input.GetKey(sm.dashKey) & (sm.state != StateMachine.MovementState.Walking))
         {
             Dash();
         }
@@ -61,6 +64,7 @@ public class MechDash : MonoBehaviour
     //DelayedDashForce handles dash startup, and prevents conflicts with walking/flying force
     private void DelayedDashForce()
     {
+        mStats.boost -= 20;
         mainScript.speedLimit = dashSpeed;
         rigidBody.AddForce(delayedForceToApply, ForceMode.Impulse);
     }
