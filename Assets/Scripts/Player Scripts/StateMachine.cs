@@ -23,7 +23,6 @@ public class StateMachine : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log(boostExhausted);
         moveScript = GetComponent<MechMove>();
         dashScript = GetComponent<MechDash>();
         mStats = GetComponent<MechStats>();
@@ -35,7 +34,7 @@ public class StateMachine : MonoBehaviour
 
     private void StateHandler()
     {
-        if (((!boostExhausted) & Input.GetKey(sprintKey)) & mStats.boost > 0)
+        if (((boostExhausted == false) & Input.GetKey(sprintKey)) & mStats.boost > 0)
         {
             state = MovementState.Flying; 
         }

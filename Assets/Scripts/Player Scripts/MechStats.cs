@@ -10,6 +10,10 @@ public class MechStats : MonoBehaviour
     public Image healthBar;
     public Text boostText;
     public Image boostBar;
+    public RawImage warningUI;
+    public Color blink0;
+    public Color blink1;
+    private float blinkSpeed = 3;
 
     private int maxHealth = 120;
     public int health = 120;
@@ -34,9 +38,18 @@ public class MechStats : MonoBehaviour
             sm.boostExhausted = false;
         }
         if (boost < 0) boost = 0;
-        if (boost == 0) sm.boostExhausted = true;
+        if (boost == 0)
+        {
+            sm.boostExhausted = true;
+        }
 
         BoostBarFiller();
+    }
+
+    private void FixedUpdate()
+    {
+        if (sm.boostExhausted) warningUI.color = Color.Lerp(blink0, blink1, Mathf.PingPong(Time.time * blinkSpeed, .5f));
+        else warningUI.color = blink0;
     }
 
     void BoostBarFiller()
